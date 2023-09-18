@@ -5,12 +5,13 @@ import Percolation.PercolationVisualizer;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdRandom;
 
 
 
 public class App {
 
-    private static final int DELAY = 100;
+    private static final int DELAY = 700;
     
     public static void main(String[] args) {
         System.out.println("Hello, World!");
@@ -19,7 +20,7 @@ public class App {
         // PercolationStats prStats = new PercolationStats(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
 
         // PercolationStats prStats = new PercolationStats(2, 100);
-        // // for (int i = 0; i < 3; i++)
+        // // 3for (int i = 0; i < 3; i++)
         // //     System.out.println( "threshold "+ i + "is" + prStats.readThreshold(i));    
         
         // System.out.println("mean\t= " + prStats.mean());
@@ -28,6 +29,7 @@ public class App {
         
         int N = StdIn.readInt();         // N-by-N percolation system
 
+        int row, col;
         // turn on animation mode
         StdDraw.show(0);
 
@@ -36,10 +38,13 @@ public class App {
         PercolationVisualizer percVis = new PercolationVisualizer();
         percVis.draw(perc, N);
         StdDraw.show(DELAY);
-        while (!StdIn.isEmpty()) {
-            int i = StdIn.readInt();
-            int j = StdIn.readInt();
-            perc.open(i, j);
+        while (!perc.percolates()) {
+            // int i = StdIn.readInt();
+            // int j = StdIn.readInt();
+            row = StdRandom.uniformInt(N) + 1;
+            col = StdRandom.uniformInt(N) + 1;
+            System.out.println("Row: " + row + ", Col: "+ col);
+            perc.open(row, col);
             percVis.draw(perc, N);
             StdDraw.show(DELAY);
         }

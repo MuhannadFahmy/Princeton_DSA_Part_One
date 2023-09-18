@@ -1,13 +1,16 @@
-package Percolation;
 
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
 
     private WeightedQuickUnionUF uf;
+
     private boolean[][] site; 
+
     private int openSites;
+
     private int n;
+
     private int bottomInd;
 
     public Percolation(int n)
@@ -17,7 +20,6 @@ public class Percolation {
 
         uf = new WeightedQuickUnionUF((n*n) + 2);
         // initialize sites to false
-        // better way of doing this is to  not use sites and only use uf!
         site = new boolean[n][n];
         openSites = 0;
         bottomInd = (n * n) + 1;
@@ -28,10 +30,10 @@ public class Percolation {
     // opens the site (row, col) if it is not open already
     public void open(int row, int col)
     {
-        validSite(row,col);
+        validSite(row, col);
 
-        int currentPos = tdToOd(row,col);
-        
+        int currentPos = tdToOd(row, col);
+
         if (row == 1)
             uf.union(0, currentPos);
 
@@ -72,7 +74,7 @@ public class Percolation {
     public boolean isFull(int row, int col)
     {  
         validSite(row, col);
-        return connected(0, tdToOd(row, col));
+        return myConnected(0, tdToOd(row, col));
     }
 
     // returns the number of open sites
@@ -84,11 +86,12 @@ public class Percolation {
     // does the system percolate?
     public boolean percolates()
     {
-        return connected(0, bottomInd);
+        return myConnected(0, bottomInd);
     }
-     private int tdToOd(int row, int col)
+
+    private int tdToOd(int row, int col)
     {
-        return((row-1) * n + col); 
+        return ((row-1) * n + col); 
     }
 
     private void validSite(int row, int col)
@@ -97,7 +100,7 @@ public class Percolation {
             throw new java.lang.IllegalArgumentException();
     }
 
-    private boolean connected(int p, int q) 
+    private boolean myConnected(int p, int q) 
     {
         return uf.find(p) == uf.find(q);
     }

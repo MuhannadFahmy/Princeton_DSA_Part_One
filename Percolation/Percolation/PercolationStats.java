@@ -1,16 +1,14 @@
-package Percolation;
 
-import Percolation.Percolation;
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
-
+import edu.princeton.cs.algs4.StdOut;
 
 public class PercolationStats {
 
     private Percolation pr;
     private double[] thresholds;
     private int n, trials;
-    private final static double CONFIDENCE_95 = 1.96;
+    private final static double confidence_95 = 1.96;
 
     // perform independent trials on an n-by-n grid
     public PercolationStats(int n, int trials)
@@ -29,7 +27,7 @@ public class PercolationStats {
             pr = new Percolation(n);
 
             // int printouts = 1;
-            while(!pr.percolates())
+            while (!pr.percolates())
             {
                 
                 row = StdRandom.uniformInt(n) + 1;
@@ -37,7 +35,7 @@ public class PercolationStats {
                 pr.open(row, col);
             }
            
-            thresholds[i]=  ((double) pr.openSites) / (n*n);
+            thresholds[i] =  ((double) pr.numberOfOpenSites()) / (n*n);
         }
     }
 
@@ -56,18 +54,29 @@ public class PercolationStats {
     // low endpoint of 95% confidence interval
     public double confidenceLo()
     {
-        return (mean() - ((CONFIDENCE_95*stddev()) / Math.sqrt(trials)));
+        return (mean() - ((confidence_95*stddev()) / Math.sqrt(trials)));
     }
 
     // high endpoint of 95% confidence interval
     public double confidenceHi()
     {
-        return (mean() + ((CONFIDENCE_95*stddev()) / Math.sqrt(trials)));
+        return (mean() + ((confidence_95*stddev()) / Math.sqrt(trials)));
     }
 
-    public double readThreshold(int i)
+    public static void main(String[] args)
     {
-        return this.thresholds[i];
+        int a, b;
+        a = Integer.parseInt(args[0]);
+        b = Integer.parseInt(args[1]);
+
+        try {
+            PercolationStats pp = new PercolationStats(a, b);
+            StdOut.println("mean                    = " + pp.mean());
+            StdOut.println("stddev                  = " + pp.stddev());
+            StdOut.println("95% confidence interval = [" + pp.confidenceLo() + ", " + pp.confidenceHi() + "]");
+        } catch (IllegalArgumentException e) {
+            throw e;
+        }
     }
 
 }
