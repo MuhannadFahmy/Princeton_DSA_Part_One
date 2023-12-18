@@ -4,6 +4,5 @@
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
         "c:\\DSA Princeton\\Princeton_DSA_Part_One\\algs4.jar"
-    ],
-    "java.debug.settings.onBuildFailureProceed": true
+    ]
 }
